@@ -16,28 +16,25 @@
   <meta name="author" content="Farmer KIKI">
   <meta name="keywords" content="">
   
-    <meta name="description" content="What is point cloud? Concept:  Point cloud is a massive collection of points expressing target spatial distribution and target surface characteristics in the same spatial coordinate system, which is t">
+    <meta name="description" content="Introduction Irrelevant points The point cloud is a set of massive points, which may contain some messy irrelevant points. These points may affect the efficiency in the processing of point cloud, and">
 <meta property="og:type" content="article">
-<meta property="og:title" content="1-Basic knowledge of point cloud">
-<meta property="og:url" content="http://sleepykiki.github.io/2022/01/17/1-point-cloud-fundation/index.html">
+<meta property="og:title" content="2-Point Cloud Software">
+<meta property="og:url" content="http://sleepykiki.github.io/2022/01/17/2-point-cloud/index.html">
 <meta property="og:site_name" content="SleepTown">
-<meta property="og:description" content="What is point cloud? Concept:  Point cloud is a massive collection of points expressing target spatial distribution and target surface characteristics in the same spatial coordinate system, which is t">
+<meta property="og:description" content="Introduction Irrelevant points The point cloud is a set of massive points, which may contain some messy irrelevant points. These points may affect the efficiency in the processing of point cloud, and">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://sleepykiki.github.io/2022/01/17/1-point-cloud-fundation/The_same_coordinate_system.png">
-<meta property="og:image" content="http://sleepykiki.github.io/2022/01/17/1-point-cloud-fundation/point_cloud_view.png">
-<meta property="og:image" content="http://sleepykiki.github.io/2022/01/17/1-point-cloud-fundation/point_size.png">
-<meta property="og:image" content="http://sleepykiki.github.io/2022/01/17/1-point-cloud-fundation/stanford_3d.png">
-<meta property="og:image" content="http://sleepykiki.github.io/2022/01/17/1-point-cloud-fundation/arranged.png">
-<meta property="og:image" content="http://sleepykiki.github.io/2022/01/17/1-point-cloud-fundation/KITTI.png">
-<meta property="article:published_time" content="2022-01-17T02:07:44.000Z">
-<meta property="article:modified_time" content="2022-01-17T13:11:08.263Z">
+<meta property="og:image" content="http://sleepykiki.github.io/2022/01/17/2-point-cloud/irrelevant_points.png">
+<meta property="og:image" content="http://sleepykiki.github.io/2022/01/17/2-point-cloud/pre-processing.png">
+<meta property="og:image" content="http://sleepykiki.github.io/2022/01/17/2-point-cloud/two_bounding_box.png">
+<meta property="article:published_time" content="2022-01-17T14:33:44.000Z">
+<meta property="article:modified_time" content="2022-01-17T15:53:19.660Z">
 <meta property="article:author" content="Farmer KIKI">
 <meta property="article:tag" content="Point Cloud">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://sleepykiki.github.io/2022/01/17/1-point-cloud-fundation/The_same_coordinate_system.png">
+<meta name="twitter:image" content="http://sleepykiki.github.io/2022/01/17/2-point-cloud/irrelevant_points.png">
   
   
-  <title>1-Basic knowledge of point cloud - SleepTown</title>
+  <title>2-Point Cloud Software - SleepTown</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -183,7 +180,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="1-Basic knowledge of point cloud">
+            <span class="h2" id="subtitle" title="2-Point Cloud Software">
               
             </span>
 
@@ -193,8 +190,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-01-17 10:07" pubdate>
-        January 17, 2022 am
+      <time datetime="2022-01-17 22:33" pubdate>
+        January 17, 2022 pm
       </time>
     </span>
   
@@ -204,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.9k 字
+      2.7k 字
     </span>
   
 
@@ -213,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      25 分钟
+      23 分钟
     </span>
   
 
@@ -242,58 +239,41 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">1-Basic knowledge of point cloud</h1>
+            <h1 style="display: none">2-Point Cloud Software</h1>
             
             <div class="markdown-body">
-              <h3 id="What-is-point-cloud"><a href="#What-is-point-cloud" class="headerlink" title="What is point cloud?"></a>What is point cloud?</h3><blockquote>
-<p>Concept: </p>
-<p>Point cloud is a massive collection of points expressing target spatial distribution and target surface characteristics in the same spatial coordinate system, which is the “Sampling of object surface “.</p>
-</blockquote>
+              <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><ul>
+<li><p><b>Irrelevant points</b></p>
+<p>The point cloud is a set of massive points, which may contain some messy irrelevant points. These points may affect the efficiency in the processing of point cloud, and even influence the accuracy of algorithms. As shown below, it is the point cloud data of a bridge scene. If we are only interested in the bridge body, then the trees and vehicles in the red frame are irrelevant points.</p>
+<p><img src="/2022/01/17/2-point-cloud/irrelevant_points.png" srcset="/img/loading.gif" lazyload alt="Irrelevant Points"></p>
+</li>
+<li><p><b>Pre-pocessing</b></p>
+<p>The original point cloud is too large and generally not directly used for subsequent processing. Usually, we will first pre-process the data. Pre-processing includes <b>cropping, cutting, cleaning, and downsampling</b> the point cloud, etc.</p>
+<p><img src="/2022/01/17/2-point-cloud/pre-processing.png" srcset="/img/loading.gif" lazyload alt="Pre-processing"></p>
+</li>
+</ul>
+<p>How to realize these operations?</p>
+<p>One of the commonly used methods is to perform rapid and appropriate processing through existing commercial or free software. This Blog  mainly introduces two commonly used free open source software: <i><b>CloudCompare &amp; MeshLab</b></i></p>
+<h2 id="CloudCompare"><a href="#CloudCompare" class="headerlink" title="CloudCompare"></a>CloudCompare</h2><p>Here are a few small tools:</p>
 <ul>
-<li><p><b>What does the same spatial coordinate system mean?  Why the same? </b></p>
-<p>The same spatial coordinate system represents point cloud is the data in 3-dimensional space;</p>
-<p>“The same” means that all points in the point cloud are in the same coordinate system, instead of belonging to multiple coordinate systems, as shown below:</p>
+<li><p>CloudCompare source code. After we are very familiar with point cloud processing technology, we can write source code here:</p>
+<p>👉 <a target="_blank" rel="noopener" href="https://github.com/cloudcompare/cloudcompare">https://github.com/cloudcompare/cloudcompare</a></p>
+</li>
+<li><p>The following link intuitively introduces the basic operations of CloudCompare in YouTube:</p>
+<p>👉 <a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PLBNUxsUA00UAT63O0d95pByrCjtqlXN4">https://www.youtube.com/playlist?list=PLBNUxsUA00UAT63O0d95pByrCjtqlXN4</a>_</p>
 </li>
 </ul>
-<p><img src="/2022/01/17/1-point-cloud-fundation/The_same_coordinate_system.png" srcset="/img/loading.gif" lazyload alt="The same coordinate system"></p>
-<p>The concept of point cloud not only emphasizes that the point cloud is a “collection of points”, more importantly, the point cloud is a sampling of object surface —— Sampling refers to the process of getting a sample of individuals from the population. Scanning is to sample the object surface, and the point cloud is sample points on the object surface.</p>
-<h3 id="Point-Cloud-View"><a href="#Point-Cloud-View" class="headerlink" title="Point Cloud View"></a>Point Cloud View</h3><p>The following figure shows several point cloud views: rabbit.pcd, bridge.bin, chair.pcd, airplane.pcd, bottle.pcd.</p>
-<p><img src="/2022/01/17/1-point-cloud-fundation/point_cloud_view.png" srcset="/img/loading.gif" lazyload alt="Point cloud View"></p>
-<h3 id="Features-of-point-cloud"><a href="#Features-of-point-cloud" class="headerlink" title="Features of point cloud"></a>Features of point cloud</h3><ul>
-<li>Translation and rotation in space can not change characteristics of point cloud itself, which can be reflected in the point cloud algorithm many times. </li>
-<li>What we focus on is the spatial coordinate or color and other information of each point. Thus, the point size and other irrelevant factors do not influence our research. It generally has an impact on the view.</li>
-</ul>
-<p><img src="/2022/01/17/1-point-cloud-fundation/point_size.png" srcset="/img/loading.gif" lazyload alt="Point Size"></p>
+<p>You can find more detailed operations in <a target="_blank" rel="noopener" href="https://github.com/oxon-612/PointCloud_Tutorial/blob/main/Chapter2/Chapter2_zh/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E7%82%B9%E4%BA%91%E8%BD%AF%E4%BB%B6.md">PointCloud_Tutorial Chapter2</a>.</p>
+<h3 id="Bounding-Box"><a href="#Bounding-Box" class="headerlink" title="Bounding Box"></a>Bounding Box</h3><p>The point cloud may have a complicated shape and structure, but no matter how complex the point cloud itself is, its Bounding Box is always a regular and straightforward cuboid. It can help us quickly get the range of the point cloud and facilitate subsequent operations using this range. </p>
+<p>It should be noted that the Bounding Box in CloudComapre is <b>Axis-Aligned Bounding Box (AABB)</b>. In addition to AABB in CloudCompare, there is also a directed Bounding Box, which is called <b>Oriented Bounding Box (OBB)</b>. AABB and OBB are both Bounding Box. What is the difference between them?</p>
 <ul>
-<li>The point cloud collection is non-intrusive. That is, there is no impact or interference on the scene or the building when we use a laser  scanner to scan them.</li>
+<li><b>Oriented Bounding Box</b> is always aligned with the  principal component direction of the point cloud (PCA can be used to  calculate the principal component direction);</li>
+<li><b>Axis-Aligned Bounding Box</b> is always aligned with the coordinate axis;</li>
 </ul>
-<h3 id="How-to-get-point-cloud"><a href="#How-to-get-point-cloud" class="headerlink" title="How to get point cloud?"></a>How to get point cloud?</h3><h4 id="Real-point-cloud"><a href="#Real-point-cloud" class="headerlink" title="Real point cloud"></a><b>Real point cloud</b></h4><p>The real point cloud is obtained from the objects in the real scene through some instruments. Such as 3D laser scanner.</p>
-<h4 id="Virtual-point-cloud"><a href="#Virtual-point-cloud" class="headerlink" title="Virtual point cloud"></a><b>Virtual point cloud</b></h4><p>Open datasets:</p>
-<p>There are also some public point cloud datasets available for download:</p>
-<ul>
-<li><p><i>The Stanford 3D Scanning Repository</i></p>
-<p>link： <a target="_blank" rel="noopener" href="http://www.cc.gatech.edu/projects/large_models/">http://www.cc.gatech.edu/projects/large_models/</a></p>
-<p>When we are new to the point cloud, we can download many point cloud datasets from this website. Because the point cloud data volume of this website is small, the operation is convenient. Among them, “bunny” (also known as Stanford Bunny) is often used in significant point cloud algorithm examples.</p>
-<p><img src="/2022/01/17/1-point-cloud-fundation/stanford_3d.png" srcset="/img/loading.gif" lazyload alt="The Stanford 3D Scanning Repository"></p>
-</li>
-<li><p><i>Sydney Urban Objects Dataset</i></p>
-<p>link：<a target="_blank" rel="noopener" href="http://www.acfr.usyd.edu.au/papers/SydneyUrbanObjectsDataset.shtml">http://www.acfr.usyd.edu.au/papers/SydneyUrbanObjectsDataset.shtml</a></p>
-<p>This dataset was acquired using LiDAR in the CBD area of Sydney, Australia, and covers a variety of common urban road objects. Such as all kinds of vehicles on the road, pedestrians, roadside trees, etc., include a total of 631 individual scanned objects. They are mainly used to test matching and classification algorithms.</p>
-<p><img src="/2022/01/17/1-point-cloud-fundation/arranged.png" srcset="/img/loading.gif" lazyload alt="Sydney Urban Objects Dataset"></p>
-</li>
-<li><p><i>ASL Datasets Repository</i></p>
-<p>link：<a target="_blank" rel="noopener" href="https://projects.asl.ethz.ch/datasets/doku.php?id=home">https://projects.asl.ethz.ch/datasets/doku.php?id=home</a></p>
-<p>This dataset contains many point cloud data, which can be used for target detection and matching, point cloud registration, etc.</p>
-</li>
-<li><p><i>The KITTI Vision Benchmark Suite</i></p>
-<p>link：<a target="_blank" rel="noopener" href="http://www.cvlibs.net/datasets/kitti/">http://www.cvlibs.net/datasets/kitti/</a></p>
-<p>The KITTI Vision Benchmark Suite comes from a project of the Karlsruhe Institute of Technology in Germany. It contains a large number of urban environment point cloud datasets (KITTI) collected by KIT’s UGV platform. This dataset not only includes radar, image, GPS, and INS data but also has manually labeled segmentation and tracking results, which can be used to objectively evaluate the effect and performance of large-scale 3D modeling and classification</p>
-<p><img src="/2022/01/17/1-point-cloud-fundation/KITTI.png" srcset="/img/loading.gif" lazyload alt="The KITTI Vision Benchmark Suite"></p>
-</li>
-</ul>
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ol>
-<li><a target="_blank" rel="noopener" href="https://github.com/oxon-612/PointCloud_Tutorial">PointCloud_Tutorial</a></li>
-</ol>
+<p><img src="/2022/01/17/2-point-cloud/two_bounding_box.png" srcset="/img/loading.gif" lazyload alt="Two different bounding boxes"></p>
+<p>Through the above introduction, we can see that OBB is more accurate than AABB to describe the range of point cloud. AABB will frame much invalid space, which will have a particular impact on efficiency in actual algorithm application. When we need a piece of more accurate range information, we generally choose to calculate OBB.</p>
+<h3 id="Cutting"><a href="#Cutting" class="headerlink" title="Cutting"></a>Cutting</h3><p>Computer Vision is actually to let the computer automatically understand a picture or a scene. </p>
+<p>Putting it in the background of the point cloud means that the computer can understand the point cloud like a human. For the point cloud of a car, people can immediately recognize that it is a car based on their knowledge, and can point out that it has wheels and so on. According to our needs, we can find out <b>the Region of Interest (ROI)</b>, that is, extract a specific point cloud region. ROI varies from situation to situation. It can be a wheel of a car point cloud, a spot on the hood of a car, or some unrelated points next to the vehicle.</p>
 
             </div>
             <hr>
@@ -328,18 +308,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/01/17/2-point-cloud/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">2-Point Cloud Software</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/01/15/The-first-day-at-SleepTown/">
-                        <span class="hidden-mobile">The first day at SleepTown</span>
+                      <a href="/2022/01/17/1-point-cloud-fundation/">
+                        <span class="hidden-mobile">1-Basic knowledge of point cloud</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
