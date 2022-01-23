@@ -31,8 +31,12 @@
 <meta property="og:image" content="http://sleepykiki.github.io/2022/01/17/2-point-cloud/downsampling.png">
 <meta property="og:image" content="http://sleepykiki.github.io/2022/01/17/2-point-cloud/Octree.png">
 <meta property="og:image" content="http://sleepykiki.github.io/2022/01/17/2-point-cloud/octree_processing.png">
+<meta property="og:image" content="http://sleepykiki.github.io/2022/01/17/2-point-cloud/cloud-to-cloud_distance.png">
+<meta property="og:image" content="http://sleepykiki.github.io/2022/01/17/2-point-cloud/cloud-to-mesh_distance.png">
+<meta property="og:image" content="http://sleepykiki.github.io/2022/01/17/2-point-cloud/normal.png">
+<meta property="og:image" content="http://sleepykiki.github.io/2022/01/17/2-point-cloud/registration.png">
 <meta property="article:published_time" content="2022-01-17T14:33:44.000Z">
-<meta property="article:modified_time" content="2022-01-18T16:15:13.957Z">
+<meta property="article:modified_time" content="2022-01-23T13:10:59.152Z">
 <meta property="article:author" content="Farmer KIKI">
 <meta property="article:tag" content="Point Cloud">
 <meta name="twitter:card" content="summary_large_image">
@@ -206,7 +210,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6.2k 字
+      8.5k 字
     </span>
   
 
@@ -215,7 +219,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      52 分钟
+      72 分钟
     </span>
   
 
@@ -269,7 +273,22 @@
 </li>
 </ul>
 <p>You can find more detailed operations in <a target="_blank" rel="noopener" href="https://github.com/oxon-612/PointCloud_Tutorial/blob/main/Chapter2/Chapter2_zh/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E7%82%B9%E4%BA%91%E8%BD%AF%E4%BB%B6.md">PointCloud_Tutorial Chapter2</a>.</p>
-<h3 id="Bounding-Box"><a href="#Bounding-Box" class="headerlink" title="Bounding Box"></a>Bounding Box</h3><p>The point cloud may have a complicated shape and structure, but no matter how complex the point cloud itself is, its Bounding Box is always a regular and straightforward cuboid. It can help us quickly get the range of the point cloud and facilitate subsequent operations using this range. </p>
+<h2 id="MeshLab"><a href="#MeshLab" class="headerlink" title="MeshLab"></a>MeshLab</h2><p>Here are a few small tools to assist us in learning:</p>
+<ul>
+<li><p>MeshLab source code:</p>
+<p>👉 <a target="_blank" rel="noopener" href="https://github.com/cnr-isti-vclab/meshlab/releases">https://github.com/cnr-isti-vclab/meshlab/releases</a></p>
+</li>
+<li><p>The following link intuitively introduces the basic operations of MeshLab in YouTube:</p>
+<p>👉 Basics：<a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PL8B1E816EAE236B4D">https://www.youtube.com/playlist?list=PL8B1E816EAE236B4D</a></p>
+<p>👉 Features：<a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PL60mCsep96JcJz_SIfXblsVmI1TYMsQJc">https://www.youtube.com/playlist?list=PL60mCsep96JcJz_SIfXblsVmI1TYMsQJc</a></p>
+<p>👉 3D Scanning pipeline：<a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PL53FAE3EB5734126E">https://www.youtube.com/playlist?list=PL53FAE3EB5734126E</a></p>
+<p>👉 Cleaning：<a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PLBBF41579E4B65566">https://www.youtube.com/playlist?list=PLBBF41579E4B65566</a></p>
+</li>
+<li><p>MeshLab tutorial:</p>
+<p>👉 <a target="_blank" rel="noopener" href="http://www.heritagedoc.pt/doc/Meshlab_Tutorial_iitd.pdf">http://www.heritagedoc.pt/doc/Meshlab_Tutorial_iitd.pdf</a></p>
+</li>
+</ul>
+<h2 id="Related-concepts"><a href="#Related-concepts" class="headerlink" title="Related concepts"></a>Related concepts</h2><h3 id="Bounding-Box"><a href="#Bounding-Box" class="headerlink" title="Bounding Box"></a>Bounding Box</h3><p>The point cloud may have a complicated shape and structure, but no matter how complex the point cloud itself is, its Bounding Box is always a regular and straightforward cuboid. It can help us quickly get the range of the point cloud and facilitate subsequent operations using this range. </p>
 <p>It should be noted that the Bounding Box in CloudComapre is <b>Axis-Aligned Bounding Box (AABB)</b>. In addition to AABB in CloudCompare, there is also a directed Bounding Box, which is called <b>Oriented Bounding Box (OBB)</b>. AABB and OBB are both Bounding Box. What is the difference between them?</p>
 <ul>
 <li><b>Oriented Bounding Box</b> is always aligned with the  principal component direction of the point cloud (PCA can be used to  calculate the principal component direction);</li>
@@ -302,16 +321,33 @@
 </li>
 <li><p>Octree</p>
 <p>Octree corresponds to “binary tree”:</p>
-<p>Each node of the binary tree has up to 2 child nodes, and each node of the octree has up to 8 child nodes. The process of a continuous division of octree is essentially the process of constant equal division of small cubes, as shown in Fig.2.1.51. These small cubes are also called “voxels.”</p>
+<p>Each node of the binary tree has up to 2 child nodes, and each node of the octree has up to 8 child nodes. The process of a continuous division of octree is essentially the process of constant equal division of small cubes, as shown below. These small cubes are also called “voxels.”</p>
 <p><img src="/2022/01/17/2-point-cloud/Octree.png" srcset="/img/loading.gif" lazyload alt="Octree"></p>
 <p>Processing steps:</p>
-<p>step1: Use a small cube to frame the original point cloud;</p>
-<p>step2: Set the Octree level. Here level = 1. This setup divides the big cube into eight small cubes. If there is no point in a small cube, the cube is deleted. </p>
-<p>step3: core step of Octree. We keep the point which is the most close to the Central point of each voxel. And one voxel is allowed to keep only one point. </p>
+<p>Step1: Use a small cube to frame the original point cloud;</p>
+<p>Step2: Set the Octree level. Here level = 1. This setup divides the big cube into eight small cubes. If there is no point in a small cube, the cube is deleted. </p>
+<p>Step3: core step of Octree. We keep the point which is the most close to the Central point of each voxel. And one voxel is allowed to keep only one point. </p>
 <p><img src="/2022/01/17/2-point-cloud/octree_processing.png" srcset="/img/loading.gif" lazyload alt="Octree processing"></p>
 </li>
 </ul>
-<h3 id="Resampling"><a href="#Resampling" class="headerlink" title="Resampling"></a>Resampling</h3>
+<h3 id="Resampling"><a href="#Resampling" class="headerlink" title="Resampling"></a>Resampling</h3><p>In CloudCompare, Octree can be used for resampling. The idea of Octree downsampling and Octree resampling is the same. The difference is:</p>
+<p>Octree resampling keeps the center of gravity of all points in each small cube after division, instead of the closest point to the center of the cube in each cube.</p>
+<blockquote>
+<p>Notice:</p>
+<p>Octree resampling is to create a new point cloud that is different from the original one, so it may not retain the critical features of the original point cloud, such as color, normal, curvature, etc. If you want to keep this information, you can consider Octree downsampling.</p>
+</blockquote>
+<h3 id="Calculate-distance"><a href="#Calculate-distance" class="headerlink" title="Calculate  distance"></a>Calculate  distance</h3><h4 id="Cloud-to-Cloud-Distance"><a href="#Cloud-to-Cloud-Distance" class="headerlink" title="Cloud-to-Cloud Distance"></a>Cloud-to-Cloud Distance</h4><p>Cloud-to-Cloud distance is to calculate the Euclidean distance between each point and the nearest point in another point cloud, that is, the nearest neighbor distance.</p>
+<p>When we calculate the distance, we look for points in the Reference cloud closest to each point in the Compared cloud, calculate the distance between every two points, and then calculate the average of all distances to get the final Cloud -to-Cloud Distance.</p>
+<p><b>nearest neighbor distance</b> learning link: <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Nearest_neighbor_search">https://en.wikipedia.org/wiki/Nearest_neighbor_search</a></p>
+<p><img src="/2022/01/17/2-point-cloud/cloud-to-cloud_distance.png" srcset="/img/loading.gif" lazyload alt="Cloud-to-Cloud Distance"></p>
+<h4 id="Cloud-to-Mesh-Distance"><a href="#Cloud-to-Mesh-Distance" class="headerlink" title="Cloud-to-Mesh Distance"></a>Cloud-to-Mesh Distance</h4><p>Cloud-to-Mesh Distance refers to the distance between a point cloud and a mesh. The calculation principle is to calculate the distance between each point and the nearest triangle in the mesh.</p>
+<p><img src="/2022/01/17/2-point-cloud/cloud-to-mesh_distance.png" srcset="/img/loading.gif" lazyload alt="Cloud-to-Mesh Distance"></p>
+<h3 id="Compute-normal"><a href="#Compute-normal" class="headerlink" title="Compute normal"></a>Compute normal</h3><p>Normal can be applied in scenes such as point cloud rendering. Besides, computing normal is also the basis of algorithms such as triangulation. </p>
+<p><img src="/2022/01/17/2-point-cloud/normal.png" srcset="/img/loading.gif" lazyload alt="Normal"></p>
+<h3 id="Registration"><a href="#Registration" class="headerlink" title="Registration"></a>Registration</h3><p>Registration is an essential algorithm for the processing point cloud. It is to register or splice multiple point clouds of different local coordinate systems by finding the overlap with each other so that they appear in the same coordinate system. As shown in below, (a) and (b) are respectively the point cloud in the two local coordinate systems of the building. After registration, we get (c), that is, (a) and (b) are joined together to form a point cloud of a complete building in a coordinate system:</p>
+<p><img src="/2022/01/17/2-point-cloud/registration.png" srcset="/img/loading.gif" lazyload alt="Registration"></p>
+<p>The well-known algorithm for registering point clouds is Iterative Closest Point (ICP)</p>
+
             </div>
             <hr>
             <div>
