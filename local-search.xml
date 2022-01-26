@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>3-Point cloud file format</title>
+    <link href="/2022/01/23/3-point-cloud/"/>
+    <url>/2022/01/23/3-point-cloud/</url>
+    
+    <content type="html"><![CDATA[<h2 id="Point-cloud-file-format"><a href="#Point-cloud-file-format" class="headerlink" title="Point cloud file format"></a>Point cloud file format</h2><p>This chapter mainly introduces the different formats of point cloud storage. Different file formats have different application scenarios and processing methods. Here are some formats:</p><p><img src="/2022/01/23/3-point-cloud/point_cloud_file_format.png" alt="Point cloud file formats"></p><ul><li><p><b><i>PCD :</i></b>  <code>Point Cloud Data, PCL (Point Cloud Library) officially designated file, which is used to store the specific information of the point cloud (PCL (Point Cloud Library) is a C++ library for processing point clouds.</code></p></li><li><p><b><i>TXT :</i></b>  <code>It is used to store the point information of the point cloud, and the operation is simple, consistent with the txt file processing method we usually process data</code></p></li><li><p><b><i>VTK :</i></b>  <code>In addition to storing point information, it also stores the topological relationship between points</code></p></li><li><p><b><i>PLY :</i></b>  <code>Three-dimensional mesh model data format, only used to describe a polygon model object, that is, a mesh structure model</code></p></li><li><p><b><i>OFF :</i></b>  <code>It is used to save the polygon information of the geometry</code></p></li><li><p><b><i>OBJ :</i></b>  <code>The geometrically defined file format mainly supports polygonal models, that is, mesh structure models</code></p></li><li><p><b><i>STL :</i></b>  <code>It is used to store point information and topological information, representing a closed surface or volume</code></p></li><li><p><b><i>BIN :</i></b>  <code>Different from the above seven kinds of files, a file with a suffix of .bin just wants to show that it is in binary format. But it does not mean that it is necessarily related to a certain application, and a bin file may not be point cloud data</code></p></li></ul><h3 id="PCD"><a href="#PCD" class="headerlink" title="PCD"></a>PCD</h3>]]></content>
+    
+    
+    <categories>
+      
+      <category>Point Cloud</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Point Cloud</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>2-Point Cloud Software</title>
     <link href="/2022/01/17/2-point-cloud/"/>
     <url>/2022/01/17/2-point-cloud/</url>
