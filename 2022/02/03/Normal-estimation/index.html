@@ -16,23 +16,21 @@
   <meta name="author" content="Farmer KIKI">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Point cloud file formatThis chapter mainly introduces the different formats of point cloud storage. Different file formats have different application scenarios and processing methods. Here are some fo">
+    <meta name="description" content="前言这篇博客主要介绍法向量估计（Normal estimation）的一些常用方法。 对于三维深度数据（Range data）目前已经存在许多法向量估计方法，这里首先介绍一种最简单的估计方法。 A method based on the first order 3D plane fitting该方法由 Jens Berkmann and Terry Caelli 提出 [1] 。我们可以将表面点的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="3-Point cloud file format">
-<meta property="og:url" content="http://sleepykiki.github.io/2022/01/23/3-point-cloud/index.html">
+<meta property="og:title" content="法向量估计的一些常用方法">
+<meta property="og:url" content="http://sleepykiki.github.io/2022/02/03/Normal-estimation/index.html">
 <meta property="og:site_name" content="SleepTown">
-<meta property="og:description" content="Point cloud file formatThis chapter mainly introduces the different formats of point cloud storage. Different file formats have different application scenarios and processing methods. Here are some fo">
+<meta property="og:description" content="前言这篇博客主要介绍法向量估计（Normal estimation）的一些常用方法。 对于三维深度数据（Range data）目前已经存在许多法向量估计方法，这里首先介绍一种最简单的估计方法。 A method based on the first order 3D plane fitting该方法由 Jens Berkmann and Terry Caelli 提出 [1] 。我们可以将表面点的">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://sleepykiki.github.io/2022/01/23/3-point-cloud/point_cloud_file_format.png">
-<meta property="article:published_time" content="2022-01-23T13:24:07.000Z">
-<meta property="article:modified_time" content="2022-01-29T14:04:02.786Z">
+<meta property="article:published_time" content="2022-02-03T13:34:51.000Z">
+<meta property="article:modified_time" content="2022-02-03T14:38:25.262Z">
 <meta property="article:author" content="Farmer KIKI">
-<meta property="article:tag" content="Point Cloud">
+<meta property="article:tag" content="Linear Fitting">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://sleepykiki.github.io/2022/01/23/3-point-cloud/point_cloud_file_format.png">
   
   
-  <title>3-Point cloud file format - SleepTown</title>
+  <title>法向量估计的一些常用方法 - SleepTown</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -178,7 +176,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="3-Point cloud file format">
+            <span class="h2" id="subtitle" title="法向量估计的一些常用方法">
               
             </span>
 
@@ -188,8 +186,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-01-23 21:24" pubdate>
-        January 23, 2022 pm
+      <time datetime="2022-02-03 21:34" pubdate>
+        February 3, 2022 pm
       </time>
     </span>
   
@@ -199,7 +197,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.2k 字
+      1.1k 字
     </span>
   
 
@@ -208,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11 分钟
+      10 分钟
     </span>
   
 
@@ -237,33 +235,21 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">3-Point cloud file format</h1>
+            <h1 style="display: none">法向量估计的一些常用方法</h1>
             
             <div class="markdown-body">
-              <h2 id="Point-cloud-file-format"><a href="#Point-cloud-file-format" class="headerlink" title="Point cloud file format"></a>Point cloud file format</h2><p>This chapter mainly introduces the different formats of point cloud storage. Different file formats have different application scenarios and processing methods. Here are some formats:</p>
-<p><img src="/2022/01/23/3-point-cloud/point_cloud_file_format.png" srcset="/img/loading.gif" lazyload alt="Point cloud file formats"></p>
-<ul>
-<li><p><b><i>PCD :</i></b>  <code>Point Cloud Data, PCL (Point Cloud Library) officially designated file, which is used to store the specific information of the point cloud (PCL (Point Cloud Library) is a C++ library for processing point clouds.</code></p>
-</li>
-<li><p><b><i>TXT :</i></b>  <code>It is used to store the point information of the point cloud, and the operation is simple, consistent with the txt file processing method we usually process data</code></p>
-</li>
-<li><p><b><i>VTK :</i></b>  <code>In addition to storing point information, it also stores the topological relationship between points</code></p>
-</li>
-<li><p><b><i>PLY :</i></b>  <code>Three-dimensional mesh model data format, only used to describe a polygon model object, that is, a mesh structure model</code></p>
-</li>
-<li><p><b><i>OFF :</i></b>  <code>It is used to save the polygon information of the geometry</code></p>
-</li>
-<li><p><b><i>OBJ :</i></b>  <code>The geometrically defined file format mainly supports polygonal models, that is, mesh structure models</code></p>
-</li>
-<li><p><b><i>STL :</i></b>  <code>It is used to store point information and topological information, representing a closed surface or volume</code></p>
-</li>
-<li><p><b><i>BIN :</i></b>  <code>Different from the above seven kinds of files, a file with a suffix of .bin just wants to show that it is in binary format. But it does not mean that it is necessarily related to a certain application, and a bin file may not be point cloud data</code></p>
-</li>
-</ul>
-<p>Supplementary reading about these formats: <a target="_blank" rel="noopener" href="https://github.com/oxon-612/PointCloud_Tutorial/blob/main/Chapter3/Chapter3_en/Chapter3%20Point%20cloud%20file%20format.md">PointCloud_Tutorial Chapter 3</a></p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
-<li><a target="_blank" rel="noopener" href="https://github.com/oxon-612/PointCloud_Tutorial/tree/main/Chapter3/Chapter3_en">PointCloud_Tutorial</a></li>
-</ol>
+              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇博客主要介绍法向量估计（Normal estimation）的一些常用方法。</p>
+<p>对于三维深度数据（Range data）目前已经存在许多法向量估计方法，这里首先介绍一种最简单的估计方法。</p>
+<h2 id="A-method-based-on-the-first-order-3D-plane-fitting"><a href="#A-method-based-on-the-first-order-3D-plane-fitting" class="headerlink" title="A method based on the first order 3D plane fitting"></a>A method based on the first order 3D plane fitting</h2><p>该方法由 Jens Berkmann and Terry Caelli 提出<sup> <a href="#ref1">[1]</a> </sup>。我们可以将表面点的法向量估计问题转化为表面点的切平面估计，然后通过切平面的法向量来估计该点处的法向量。具体方法如下：</p>
+<p>通过Liang and Todhunter 的研究结果 <sup><a href="#ref1">[2]</a></sup> ，若有局部表面处点$P_q$，其领域点集为$N_p$，我们可以定义局部表面处点$P_q$的协方差矩阵$C_I$：<br>$$<br>C_I = \frac{1}{n} \sum_{i=1}^{n}(P_i - P_m)\cdot (P_i - P_m)^{T}<br>$$<br>上式中，</p>
+<p>$P_i \in N_p$，$P_i=(x_i,y_i,z_i)^T$为其中第$i$个点的位置；</p>
+<p>$n$为领域中点的个数；</p>
+<p>$P_m$是邻域点集的中心点，可以通过公式$P_m = \frac{1}{n} \sum_{i=1}^{n} P_i$计算得到；</p>
+<p>通过特征值和特征向量的定义：$C_I \cdot \vec{v}_j = \lambda_j \vec{v}_j,j \in {0,1,2 }$，可以计算得到对应三个正交的特征向量。如果有$0 \leq \lambda_0 \leq \lambda_1 \leq \lambda_2 $，则 $\lambda_0$ 对应的特征向量 $\vec{v}_0$ 为该点对应法向量 $\vec{n}$ 或 $- \vec{n}$ 的估计值。</p>
+<p>此外，可以对应得到该点的曲率值 $\sigma$ ：<br>$$<br>\sigma = \frac{\lambda_0}{\lambda_0 + \lambda_1 + \lambda_2}<br>$$</p>
+<h2 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h2><p>之后还会补充其他方法。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a name="ref1"><font color="blue">[1]</font></a> Jens Berkmann and Terry Caelli. Computation of Surface Geometry and Segmentation Using Covariance Techniques. IEEE Transactions on Pattern Analysis and Machine Intelligence (PAMI), 16(11):1114–1116, November 1994.  </p>
+<p><a name="ref1"><font color="blue">[2]</font></a> P. Liang and J. S. Todhunter, “Representation and recognition of surface shapes in range images,”Computer Vision, Graphics and Image Processing, vol. 52, no. 10, pp. 78-109, 1990  </p>
 
             </div>
             <hr>
@@ -273,7 +259,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/Point-Cloud/">Point Cloud</a>
+                      <a class="hover-with-bg" href="/categories/Linear-Fitting/">Linear Fitting</a>
                     
                   </div>
                 
@@ -281,7 +267,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Point-Cloud/">Point Cloud</a>
+                      <a class="hover-with-bg" href="/tags/Linear-Fitting/">Linear Fitting</a>
                     
                   </div>
                 
@@ -292,18 +278,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/02/03/Normal-estimation/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">法向量估计的一些常用方法</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/01/17/2-point-cloud/">
-                        <span class="hidden-mobile">2-Point Cloud Software</span>
+                      <a href="/2022/01/23/3-point-cloud/">
+                        <span class="hidden-mobile">3-Point cloud file format</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
