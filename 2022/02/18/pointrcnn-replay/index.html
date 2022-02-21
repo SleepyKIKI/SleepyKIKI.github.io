@@ -23,13 +23,13 @@
 <meta property="og:site_name" content="SleepTown">
 <meta property="og:description" content="前言最近尝试用一些点云相关的神经网络模型实现无人驾驶场景下的目标识别。本篇博客主要记录复现PointRCNN的环境配置与流程，以及对预测结果的可视化。 PointRCNN首先给出论文和项目代码如下。 论文地址：https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;1812.04244 项目代码：https:&#x2F;&#x2F;github.com&#x2F;sshaoshuai&#x2F;PointRCNN 这里简单给出PointRCNN的结">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://sleepykiki.github.io/2022/02/18/pointrcnn-replay/pointrcnn_structure.png">
+<meta property="og:image" content="http://sleepykiki.github.io/2022/02/18/pointrcnn-replay/pointrcnn_structure.PNG">
 <meta property="article:published_time" content="2022-02-18T13:23:37.000Z">
-<meta property="article:modified_time" content="2022-02-21T15:07:52.458Z">
+<meta property="article:modified_time" content="2022-02-21T15:53:25.542Z">
 <meta property="article:author" content="Farmer KIKI">
 <meta property="article:tag" content="PointCloud">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://sleepykiki.github.io/2022/02/18/pointrcnn-replay/pointrcnn_structure.png">
+<meta name="twitter:image" content="http://sleepykiki.github.io/2022/02/18/pointrcnn-replay/pointrcnn_structure.PNG">
   
   
   <title>PointRCNN 复现流程 - SleepTown</title>
@@ -245,7 +245,7 @@
 <p>论文地址：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1812.04244">https://arxiv.org/abs/1812.04244</a></p>
 <p>项目代码：<a target="_blank" rel="noopener" href="https://github.com/sshaoshuai/PointRCNN">https://github.com/sshaoshuai/PointRCNN</a></p>
 <p>这里简单给出PointRCNN的结构与思路，PointRCNN的结构如下图：</p>
-<p><img src="/2022/02/18/pointrcnn-replay/pointrcnn_structure.png" srcset="/img/loading.gif" lazyload alt="PointRCNN 结构"></p>
+<p><img src="/2022/02/18/pointrcnn-replay/pointrcnn_structure.PNG" srcset="/img/loading.gif" lazyload alt="PointRCNN 结构"></p>
 <p>PointRCNN主要分为两个阶段：</p>
 <ul>
 <li>Stage One：利用<b>PointNet++</b>网络实现前景与背景分割。通过特征提取后，生成一系列的3D Bbox(3D Bounding box)，保留前<code>Top</code>个。</li>
